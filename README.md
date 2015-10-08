@@ -13,4 +13,7 @@ The basic package contains english and german language files.
 
 Licensed under the GNU GPL, version 3.
 
+This plugin uses the readmore.js by jedfoster
+=> https://github.com/jedfoster/Readmore.js
+
 Demovideo: http://youtu.be/PpmJm8B1YP8
