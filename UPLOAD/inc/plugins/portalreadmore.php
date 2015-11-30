@@ -35,8 +35,7 @@ function portalreadmore_info()
 		"author"		=>	"SvePu",
 		"authorsite"	=> 	"https://github.com/SvePu",
 		"codename"		=>	"portalreadmore",
-		"version"		=>	"1.1",
-		"guid"			=>	"",
+		"version"		=>	"1.2",
 		"compatibility"	=>	"18*"
 	);
 	
