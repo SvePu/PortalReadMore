@@ -1,7 +1,6 @@
 <?php
-
 /**
- * PortalReadMore - 1.2 Language File English
+ * PortalReadMore - 1.4 Language File English
  * Licensed under GNU/GPL v3
  * 
  */

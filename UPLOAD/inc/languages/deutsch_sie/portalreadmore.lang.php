@@ -1,7 +1,6 @@
 <?php
-
 /**
- * PortalReadMore - 1.2 Language File German (formal)
+ * PortalReadMore - 1.4 Language File German (formal)
  * Licensed under GNU/GPL v3
  * 
  */
