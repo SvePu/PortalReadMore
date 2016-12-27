@@ -1,7 +1,7 @@
 <?php
 
 /*
-PortalReadMore Button Plugin v 1.1 for MyBB
+PortalReadMore Button Plugin v 1.3 for MyBB
 Copyright (C) 2015 SvePu
 
 This program is free software: you can redistribute it and/or modify
