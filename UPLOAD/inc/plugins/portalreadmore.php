@@ -1,22 +1,22 @@
 <?php
 
-/**
- *	PortalReadMore Button Plugin v 1.2 for MyBB
- *	Copyright (C) 2015 SvePu
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
+/*
+PortalReadMore Button Plugin v 1.1 for MyBB
+Copyright (C) 2015 SvePu
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 if(!defined("IN_MYBB"))
 {
@@ -35,7 +35,7 @@ function portalreadmore_info()
 		"author"		=>	"SvePu",
 		"authorsite"	=> 	"https://github.com/SvePu",
 		"codename"		=>	"portalreadmore",
-		"version"		=>	"1.2",
+		"version"		=>	"1.3",
 		"compatibility"	=>	"18*"
 	);
 	
@@ -183,8 +183,13 @@ $(\'div.readmore\').readmore({
 	moreLink: \'<div class="postbit_buttons"><a href="#" class="prm_open"><span>'.$lang->portalreadmore_readmore.'</span></a></div>\',
 	lessLink: \'<div class="postbit_buttons"><a href="#" class="prm_close"><span>'.$lang->portalreadmore_close.'</span></a></div>\',
 	collapsedHeight: '.$mybb->settings['portalreadmore_height'].',
-	speed: '.$mybb->settings['portalreadmore_speed'].'
-	});
+	speed: '.$mybb->settings['portalreadmore_speed'].',
+	afterToggle: function(trigger, element, expanded) {
+		if(! expanded) {
+		  $(\'html, body\').animate( { scrollTop: element.offset().top -80}, {duration: 100 } );
+		}
+	}
+});
 // -->
 </script>';
 	}
