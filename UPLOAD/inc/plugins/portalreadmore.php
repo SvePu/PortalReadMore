@@ -1,8 +1,8 @@
 <?php
 
 /*
-PortalReadMore Button Plugin v 1.3 for MyBB
-Copyright (C) 2015 SvePu
+PortalReadMore Button Plugin v 1.4 for MyBB
+Copyright (C) 2015 - 2020 SvePu
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ if(!defined("IN_MYBB"))
 function portalreadmore_info()
 {
 	global $plugins_cache, $mybb, $db;
-	
+
 	$info = array
 	(
 		"name"			=>	"Portal ReadMore Button",
@@ -35,10 +35,10 @@ function portalreadmore_info()
 		"author"		=>	"SvePu",
 		"authorsite"	=> 	"https://github.com/SvePu",
 		"codename"		=>	"portalreadmore",
-		"version"		=>	"1.3",
+		"version"		=>	"1.4",
 		"compatibility"	=>	"18*"
 	);
-	
+
 	$info_desc = '';
 	$result = $db->simple_select('settinggroups', 'gid, title', "name = 'portal'", array('limit' => 1));
 	$settings_group = $db->fetch_array($result);
@@ -52,24 +52,24 @@ function portalreadmore_info()
 <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1" />
 </form>';
 	}
-	
+
 	if($info_desc != '')
 	{
 		$info['description'] = $info_desc.'<br />'.$info['description'];
 	}
-    
-    return $info;
+
+	return $info;
 }
 
 function portalreadmore_activate()
 {
 	global $db;
-	
+
 	$query = $db->simple_select("settinggroups", "gid", "name='portal'");
 	$gid = $db->fetch_field($query, "gid");
-	$query_add = $db->simple_select("settings", "COUNT(*) as rows", "gid='{$gid}'");
-	$rows = $db->fetch_field($query_add, "rows");
-	
+	$query_add = $db->simple_select("settings", "COUNT(*) as settingsrows", "gid='{$gid}'");
+	$rows = $db->fetch_field($query_add, "settingsrows");
+
 	$setting = array(
 		'name'		=> 'portalreadmore_enable',
 		'title'		=> '"Read More" Button in Portal Announcements',
@@ -80,7 +80,7 @@ function portalreadmore_activate()
 		'gid'		=> intval($gid)
 	);
 	$db->insert_query('settings',$setting);
-	
+
 	$setting = array(
 		'name'		=> 'portalreadmore_height',
 		'title'		=> '"Read More" Minimum Height',
@@ -90,8 +90,8 @@ function portalreadmore_activate()
 		'disporder'	=> $rows+2,
 		'gid'		=> intval($gid)
 	);
-	$db->insert_query('settings',$setting);	
-	
+	$db->insert_query('settings',$setting);
+
 	$setting = array(
 		'name'		=> 'portalreadmore_speed',
 		'title'		=> '"Read More" Opening Speed',
@@ -104,40 +104,40 @@ function portalreadmore_activate()
 	$db->insert_query('settings',$setting);
 
 	rebuild_settings();
-	
+
 	require_once MYBB_ROOT."inc/adminfunctions_templates.php";
 	find_replace_templatesets("headerinclude", '#{\$stylesheets}(\r?)\n#', "{\$stylesheets}\n{\$portalreadmore_css}\n");
-    find_replace_templatesets("portal", '#{\$footer}(\r?)\n#', "{\$footer}\n{\$portalreadmore}\n");
+	find_replace_templatesets("portal", '#{\$footer}(\r?)\n#', "{\$footer}\n{\$portalreadmore}\n");
 	find_replace_templatesets("portal_announcement", "#".preg_quote('<td class="trow1 scaleimages">')."#i", "<td class=\"trow1 scaleimages\">\n\t\t{\$prm_pa_start}");
 	find_replace_templatesets("portal_announcement", "#".preg_quote('{$post[\'attachments\']}')."#i", "{\$post['attachments']}\n\t\t{\$prm_pa_end}");
-	
+
 }
 
 function portalreadmore_deactivate()
 {
 	global $db;
-	
+
 	$settingsarray = array(
-        "portalreadmore_enable",
+		"portalreadmore_enable",
 		"portalreadmore_height",
 		"portalreadmore_speed"
-    );
+	);
 	$delsettings = implode("','", $settingsarray);
 	$db->delete_query("settings", "name in ('{$delsettings}')");
-    
+
 	rebuild_settings();
-	
+
 	require_once MYBB_ROOT."/inc/adminfunctions_templates.php";
 	find_replace_templatesets("headerinclude", '#{\$portalreadmore_css}(\r?)\n#', "", 0);
-    find_replace_templatesets("portal", '#{\$portalreadmore}(\r?)\n#', "", 0);
+	find_replace_templatesets("portal", '#{\$portalreadmore}(\r?)\n#', "", 0);
 	find_replace_templatesets("portal_announcement", '#\n\t\t{\$prm_pa_start}(\r?)#', "", 0);
 	find_replace_templatesets("portal_announcement", '#\n\t\t{\$prm_pa_end}(\r?)#', "", 0);
 }
 
 function portalreadmore_css()
 {
-	global $mybb, $portalreadmore_css;	
-	
+	global $mybb, $portalreadmore_css;
+
 	$portalreadmore_css = "";
 	if(my_strpos($_SERVER['PHP_SELF'], 'portal.php'))
 	{
@@ -156,7 +156,7 @@ $plugins->add_hook("global_start", "portalreadmore_css");
 
 function portalreadmore_announcement()
 {
-	global $mybb, $announcement, $prm_pa_start, $prm_pa_end;	
+	global $mybb, $announcement, $prm_pa_start, $prm_pa_end;
 	$prm_pa_start = '';
 	$prm_pa_end = '';
 	if ($mybb->settings['portalreadmore_enable'] != 0)
